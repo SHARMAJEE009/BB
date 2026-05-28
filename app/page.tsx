@@ -8,20 +8,33 @@ import FloatingHearts from "@/components/FloatingHearts";
 import Navbar from "@/components/Navbar";
 import BottomNav from "@/components/BottomNav";
 import MusicPlayer from "@/components/MusicPlayer";
+import { HER_SOLO_PICS, WITH_ME_PICS, DP_IMG } from "@/lib/imagePaths";
 
 const STORIES = [
-  { id: 1, label: "First Meet", emoji: "🌸", color: "from-pink-500 to-rose-500" },
   { id: 2, label: "Cute Moments", emoji: "💕", color: "from-purple-500 to-pink-500" },
   { id: 3, label: "Future Dreams", emoji: "✨", color: "from-indigo-500 to-purple-500" },
   { id: 4, label: "Secret Memories", emoji: "🔐", color: "from-rose-500 to-orange-400" },
   { id: 5, label: "Our Songs", emoji: "🎵", color: "from-blue-500 to-indigo-500" },
 ];
 
-const TYPING_PHRASES = [
-  "Happy Birthday, my love ❤️",
-  "You make every day magical ✨",
-  "Today is all about you 🌸",
-  "My heart belongs to you 💕",
+// May 29 check (month is 0-indexed, so May = 4)
+function isBirthday() {
+  const now = new Date();
+  return now.getMonth() === 4 && (now.getDate() === 28 || now.getDate() === 29);
+}
+
+const BIRTHDAY_PHRASES = [
+  "Happy Birthday, BB ❤️",
+  "Aaj ka din sirf tera hai ✨",
+  "Tu meri duniya hai 🌸",
+  "Tujhse pyaar hai, hamesha 💕",
+];
+
+const NORMAL_PHRASES = [
+  "Tu meri duniya hai 🌸",
+  "Tujhse pyaar hai, hamesha 💕",
+  "Har pal tera intezaar karta hoon ✨",
+  "Sirf tera hoon, hamesha ❤️",
 ];
 
 function useTypingAnimation(phrases: string[], speed = 80, pause = 2000) {
@@ -52,39 +65,88 @@ function useTypingAnimation(phrases: string[], speed = 80, pause = 2000) {
   return text;
 }
 
-const FEED_POSTS = [
+const FEED_POSTS_BIRTHDAY = [
   {
     id: 1,
     user: "himanshu_official",
-    avatar: "H",
+    avatar: DP_IMG,
     time: "Just now",
-    image: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&q=80",
-    caption: "Every moment with you is a gift 🎁 Happy Birthday, my love ❤️",
+    image: WITH_ME_PICS[0],
+    caption: "Aaj ke din se zyada khoobsurat koi din nahi — Happy Birthday jaan ❤️ 🎂",
     likes: "2,847",
     comments: "142",
     hearts: true,
   },
   {
     id: 2,
-    user: "our_memories",
-    avatar: "💕",
-    time: "1 hour ago",
-    image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600&q=80",
-    caption: "Remember our first stargazing night? 🌟 That's when I knew...",
+    user: "himanshu_official",
+    avatar: DP_IMG,
+    time: "2 hours ago",
+    image: HER_SOLO_PICS[0],
+    caption: "Duniya mein sabse sundar cheez kya hai? Tu. Happy Birthday BB 🌸✨",
     likes: "1,293",
     comments: "87",
+    hearts: false,
+  },
+  {
+    id: 3,
+    user: "himanshu_official",
+    avatar: DP_IMG,
+    time: "4 hours ago",
+    image: WITH_ME_PICS[1],
+    caption: "Tere saath bita har pal meri sabse pyaari yaad hai 💕",
+    likes: "987",
+    comments: "54",
+    hearts: false,
+  },
+];
+
+const FEED_POSTS_NORMAL = [
+  {
+    id: 1,
+    user: "himanshu_official",
+    avatar: DP_IMG,
+    time: "Just now",
+    image: WITH_ME_PICS[0],
+    caption: "Tere saath bita har pal meri sabse pyaari yaad hai 💕",
+    likes: "2,847",
+    comments: "142",
+    hearts: true,
+  },
+  {
+    id: 2,
+    user: "himanshu_official",
+    avatar: DP_IMG,
+    time: "2 hours ago",
+    image: HER_SOLO_PICS[0],
+    caption: "Duniya mein sabse sundar cheez kya hai? Tu. Bas tu ❤️",
+    likes: "1,293",
+    comments: "87",
+    hearts: false,
+  },
+  {
+    id: 3,
+    user: "himanshu_official",
+    avatar: DP_IMG,
+    time: "4 hours ago",
+    image: WITH_ME_PICS[1],
+    caption: "Sirf tujhse pyaar hai — yeh baat keh deta hoon baar baar 🌸",
+    likes: "987",
+    comments: "54",
     hearts: false,
   },
 ];
 
 export default function HomePage() {
+  const birthday = isBirthday();
+  const FEED_POSTS = birthday ? FEED_POSTS_BIRTHDAY : FEED_POSTS_NORMAL;
   const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set([1]));
   const [showWelcome, setShowWelcome] = useState(true);
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
   const heroScale = useTransform(scrollY, [0, 300], [1, 1.05]);
-  const typedText = useTypingAnimation(TYPING_PHRASES);
+  const typedText = useTypingAnimation(birthday ? BIRTHDAY_PHRASES : NORMAL_PHRASES);
 
   useEffect(() => {
     const t = setTimeout(() => setShowWelcome(false), 3500);
@@ -126,16 +188,8 @@ export default function HomePage() {
               className="font-display text-3xl italic gradient-text text-center"
               style={{ fontFamily: "var(--font-playfair)" }}
             >
-              Happy Birthday ✨
+              {birthday ? "HAPPY Birthday BB ❤️" : "Sirf Tera Hoon ❤️"}
             </motion.h1>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              className="text-text-secondary mt-2 text-sm"
-            >
-              A surprise made just for you
-            </motion.p>
             <motion.div
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
@@ -218,11 +272,23 @@ export default function HomePage() {
                 className="font-display text-6xl md:text-7xl font-bold italic leading-tight"
                 style={{ fontFamily: "var(--font-playfair)" }}
               >
-                <span className="gradient-text">Happy</span>
-                <br />
-                <span className="text-white text-glow-pink">Birthday</span>
-                <br />
-                <span className="gradient-text">Himanshu</span>
+                {birthday ? (
+                  <>
+                    <span className="gradient-text">Happy</span>
+                    <br />
+                    <span className="text-white text-glow-pink">Birthday</span>
+                    <br />
+                    <span className="gradient-text">BABY ❤️</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="gradient-text">Meri</span>
+                    <br />
+                    <span className="text-white text-glow-pink">Jaan</span>
+                    <br />
+                    <span className="gradient-text">BB ❤️</span>
+                  </>
+                )}
               </h1>
             </motion.div>
 
@@ -257,7 +323,7 @@ export default function HomePage() {
                 >
                   <span className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                   <MessageCircle size={16} />
-                  Chat with Himanshu AI
+                  Chat with Himanshu ❤️
                 </motion.button>
               </Link>
               <Link href="/memories" className="flex-1">
@@ -384,7 +450,7 @@ function FeedPost({
   onLike,
   delay,
 }: {
-  post: (typeof FEED_POSTS)[0];
+  post: (typeof FEED_POSTS_NORMAL)[0];
   liked: boolean;
   onLike: () => void;
   delay: number;
@@ -405,9 +471,11 @@ function FeedPost({
       <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
           <div className="story-ring p-[2px] rounded-full">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-rose-glow to-purple-glow flex items-center justify-center font-bold text-sm border-2 border-bg-primary">
-              {post.avatar}
-            </div>
+            <img
+              src={post.avatar}
+              alt="Himanshu"
+              className="w-9 h-9 rounded-full object-cover border-2 border-bg-primary"
+            />
           </div>
           <div>
             <p className="text-sm font-semibold text-white">{post.user}</p>

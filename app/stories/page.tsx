@@ -24,32 +24,6 @@ interface StorySlide {
 
 const STORIES: Story[] = [
   {
-    id: 1,
-    label: "First Meet",
-    emoji: "🌸",
-    color: "from-pink-500 to-rose-600",
-    slides: [
-      {
-        type: "quote",
-        content: "The first time I saw you...",
-        subtitle: "I knew my whole world was about to change",
-        bg: "linear-gradient(135deg, #1a0528 0%, #2d1040 50%, #1a0528 100%)",
-      },
-      {
-        type: "text",
-        content: "You walked in and my heart literally skipped a beat",
-        subtitle: "Like in those corny movies I always made fun of 😭",
-        bg: "linear-gradient(135deg, #200a35 0%, #3a1560 100%)",
-      },
-      {
-        type: "text",
-        content: "That shy smile of yours... still does the same thing to me",
-        subtitle: "Every. Single. Time.",
-        bg: "linear-gradient(135deg, #2d0a20 0%, #4a1a3a 100%)",
-      },
-    ],
-  },
-  {
     id: 2,
     label: "Cute Moments",
     emoji: "💕",
@@ -159,14 +133,20 @@ const STORIES: Story[] = [
       },
       {
         type: "text",
-        content: "Perfect — Ed Sheeran",
-        subtitle: "Because every line feels like it was written about you 🎶",
+        content: "Sitaare Ikkis",
+        subtitle: "Yeh gaana sunke sirf tera chehra aata hai aankho ke saamne 🎶",
         bg: "linear-gradient(135deg, #080a30 0%, #101a50 100%)",
       },
       {
         type: "text",
+        content: "Perfect — Ed Sheeran",
+        subtitle: "Kyunki har line tere baare mein likhi lagti hai ✨",
+        bg: "linear-gradient(135deg, #0a0528 0%, #1a1060 100%)",
+      },
+      {
+        type: "text",
         content: "Tere Bina — AR Rahman",
-        subtitle: "Kuch nahi hai tere bina... and I mean it 💕",
+        subtitle: "Kuch nahi hai tere bina... aur yeh sach mein kehta hoon 💕",
         bg: "linear-gradient(135deg, #0a0528 0%, #150a40 100%)",
       },
     ],

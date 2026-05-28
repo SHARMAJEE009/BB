@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, MessageCircle, Bookmark, Send, X } from "lucide-react";
+import { Heart, MessageCircle, Bookmark, Send } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import BottomNav from "@/components/BottomNav";
 import Link from "next/link";
+import { HER_SOLO_PICS, WITH_ME_PICS } from "@/lib/imagePaths";
 
 interface Memory {
   id: number;
@@ -14,6 +15,8 @@ interface Memory {
   date: string;
   emoji: string;
   bg: string;
+  photo?: string;
+  objectPosition?: string;
   likes: number;
   comments: Comment[];
   tag: string;
@@ -24,98 +27,110 @@ interface Comment {
   text: string;
 }
 
-const MEMORIES: Memory[] = [
-  {
-    id: 1,
-    title: "The Night Sky 🌟",
-    caption:
-      "Remember lying under the stars, talking about everything and nothing? You pointed at a star and said 'that one's ours.' And I believed you completely.",
-    date: "A beautiful night",
-    emoji: "🌙",
-    bg: "linear-gradient(135deg, #050a28 0%, #0d1545 60%, #1a0a2e 100%)",
-    likes: 847,
-    tag: "Magical",
-    comments: [
-      { user: "himanshu", text: "I still look at that star every night 🌟" },
-      { user: "you", text: "I know you do ❤️" },
-    ],
-  },
-  {
-    id: 2,
-    title: "First Coffee Date ☕",
-    caption:
-      "Two hours turned into five. The coffee went cold but the conversation never did. You laughed at all my terrible jokes. That's when I was done for.",
-    date: "The beginning of everything",
-    emoji: "☕",
-    bg: "linear-gradient(135deg, #200a10 0%, #400f20 60%, #280510 100%)",
-    likes: 1203,
-    tag: "First Times",
-    comments: [
-      { user: "himanshu", text: "Still my favorite afternoon of all time 💕" },
-    ],
-  },
-  {
-    id: 3,
-    title: "Rain Dance 🌧️",
-    caption:
-      "We got caught in the rain and instead of running, you started dancing. In the middle of the street. I stood there watching you, completely in love.",
-    date: "A rainy afternoon",
-    emoji: "🌧️",
-    bg: "linear-gradient(135deg, #0a1020 0%, #151e38 60%, #0d1528 100%)",
-    likes: 692,
-    tag: "Spontaneous",
-    comments: [
-      { user: "himanshu", text: "You looked like a movie scene I never wanted to end 🎬" },
-      { user: "you", text: "You were just standing there like a statue 😂" },
-      { user: "himanshu", text: "I was frozen in a good way 🥺" },
-    ],
-  },
-  {
-    id: 4,
-    title: "Sunday Morning 🌅",
-    caption:
-      "Lazy morning, your voice still sleepy, telling me about a dream you had. Those are the moments I want to bottle up and keep forever.",
-    date: "A slow, perfect Sunday",
-    emoji: "🌅",
-    bg: "linear-gradient(135deg, #280a05 0%, #451508 60%, #301005 100%)",
-    likes: 1089,
-    tag: "Everyday Magic",
-    comments: [
-      { user: "himanshu", text: "My favorite version of you is half-asleep you 😍" },
-    ],
-  },
-  {
-    id: 5,
-    title: "Inside Jokes 😂",
-    caption:
-      "We have so many inside jokes that sometimes I laugh at nothing and have to explain myself. You're the funniest person I know and you don't even try.",
-    date: "Always",
-    emoji: "😂",
-    bg: "linear-gradient(135deg, #1a0528 0%, #2d1545 60%, #1a0a30 100%)",
-    likes: 2341,
-    tag: "Just Us",
-    comments: [
-      { user: "you", text: "STOP 😭" },
-      { user: "himanshu", text: "Never 🤣❤️" },
-    ],
-  },
-  {
-    id: 6,
-    title: "Your Birthday Today 🎂",
-    caption:
-      "Today, on your birthday, I want you to know: you are the best thing that's ever happened to me. Every memory we make is my favorite one. Here's to a thousand more.",
-    date: "Today — May 28",
-    emoji: "🎂",
-    bg: "linear-gradient(135deg, #2d0a20 0%, #4a1535 60%, #2d0a28 100%)",
-    likes: 9999,
-    tag: "Today ❤️",
-    comments: [
-      { user: "himanshu", text: "Happy Birthday, my everything ❤️🎂✨" },
-    ],
-  },
-];
+// Resolved below after import — defined as a function to pick real photos
+function buildMemories(herPics: string[], withMePics: string[]): Memory[] {
+  return [
+    {
+      id: 1,
+      title: "Meri Jaan 🌸",
+      caption:
+        "Teri yeh photo dekh ke dil garden garden ho jaata hai. Tu kitni sundar hai yaar — aur yeh sach mein kehta hoon, compliment nahi. 😍",
+      date: "Hamesha",
+      emoji: "🌸",
+      bg: "linear-gradient(135deg, #1a0528 0%, #2d1040 60%, #1a0528 100%)",
+      photo: herPics[0],
+      objectPosition: "top",
+      likes: 2847,
+      tag: "My Favorite",
+      comments: [
+        { user: "himanshu", text: "Har photo mein tu aur bhi sundar lagti hai 😭❤️" },
+        { user: "bb", text: "Shut up 🙈" },
+        { user: "himanshu", text: "Never 🥺💕" },
+      ],
+    },
+    {
+      id: 2,
+      title: "Humari Duniya 💕",
+      caption:
+        "Tere saath bita har pal meri sabse pyaari yaad hai. Is photo ko dekhta hoon toh sirf ek hi khayal aata hai — kitna pyaar karta hoon tujhse.",
+      date: "Ek khoobsurat din",
+      emoji: "💕",
+      bg: "linear-gradient(135deg, #200a10 0%, #400f20 60%, #280510 100%)",
+      photo: withMePics[0],
+      likes: 1893,
+      tag: "Us ❤️",
+      comments: [
+        { user: "himanshu", text: "Yeh wala moment mere dil ke bahut paas hai 🌹" },
+      ],
+    },
+    {
+      id: 3,
+      title: "Tu Aur Main 🌙",
+      caption:
+        "Kuch log zindagi mein aate hain aur sab kuch badal dete hain — tu mere liye wahi hai. Tere saath wali yeh photo dekh ke smile aata hai automatically.",
+      date: "Ek yaadgaar raat",
+      emoji: "🌙",
+      bg: "linear-gradient(135deg, #050a28 0%, #0d1545 60%, #1a0a2e 100%)",
+      photo: withMePics[1],
+      likes: 1204,
+      tag: "Magical",
+      comments: [
+        { user: "himanshu", text: "Tere saath toh raat bhi subah jaisi lagti hai ✨" },
+        { user: "bb", text: "Uff yaar 🥺" },
+      ],
+    },
+    {
+      id: 4,
+      title: "Teri Muskaan 😊",
+      caption:
+        "Teri yeh smile — teri natural, unfiltered wali smile — duniya ki sabse pyaari cheez hai mere liye. Koi bhi badal nahi sakta isko.",
+      date: "Ek random afternoon",
+      emoji: "☀️",
+      bg: "linear-gradient(135deg, #280a05 0%, #451508 60%, #301005 100%)",
+      photo: herPics[2],
+      likes: 3102,
+      tag: "My Sunshine",
+      comments: [
+        { user: "himanshu", text: "Yahi wali smile ke liye jeeta hoon 😍" },
+      ],
+    },
+    {
+      id: 5,
+      title: "Sirf Teri Teri 💫",
+      caption:
+        "Sach kehta hoon — main tujhe dekh ke bhool jaata hoon ke duniya mein aur bhi kuch hai. Sirf tu. Sirf tera chehra. Sirf tujhse pyaar.",
+      date: "Hamesha se, hamesha tak",
+      emoji: "💫",
+      bg: "linear-gradient(135deg, #1a0528 0%, #2d1545 60%, #1a0a30 100%)",
+      photo: herPics[4],
+      objectPosition: "top",
+      likes: 4721,
+      tag: "Just Us",
+      comments: [
+        { user: "bb", text: "Main ro dungi sach mein 😭" },
+        { user: "himanshu", text: "Rona mat — yeh toh sirf sach hai 🥺❤️" },
+      ],
+    },
+    {
+      id: 6,
+      title: "Happy Birthday BABY 🎂",
+      caption:
+        "Aaj tere birthday par sirf yeh kehna chahta hoon — tu meri zindagi ki sabse khoobsurat cheez hai. Har yaad meri favorite hai. Yahan hoon, hamesha ❤️",
+      date: "Aaj — 28 May",
+      emoji: "🎂",
+      bg: "linear-gradient(135deg, #2d0a20 0%, #4a1535 60%, #2d0a28 100%)",
+      photo: withMePics[2] || herPics[1],
+      likes: 9999,
+      tag: "Today ❤️",
+      comments: [
+        { user: "himanshu", text: "Happy Birthday jaan, meri puri duniya ❤️🎂✨" },
+      ],
+    },
+  ];
+}
 
 export default function MemoriesPage() {
+  const MEMORIES = buildMemories(HER_SOLO_PICS, WITH_ME_PICS);
   const [likes, setLikes] = useState<Record<number, boolean>>(
     Object.fromEntries(MEMORIES.map((m) => [m.id, m.id === 6]))
   );
@@ -204,27 +219,29 @@ export default function MemoriesPage() {
               </div>
 
               {/* Visual card */}
-              <div
-                className="mx-4 rounded-2xl overflow-hidden aspect-[4/3] flex flex-col items-center justify-center px-6 text-center relative mb-3"
-                style={{ background: memory.bg }}
-              >
-                <div
-                  className="absolute inset-0 opacity-10"
-                  style={{
-                    backgroundImage:
-                      "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.3) 0%, transparent 60%)",
-                  }}
-                />
-                <div className="text-5xl mb-4 relative z-10">{memory.emoji}</div>
-                <h3
-                  className="font-display text-xl font-bold italic text-white relative z-10 mb-2"
-                  style={{ fontFamily: "var(--font-playfair)" }}
-                >
-                  {memory.title}
-                </h3>
-                <p className="text-white/70 text-sm leading-relaxed relative z-10">
-                  {memory.caption.slice(0, 80)}...
-                </p>
+              <div className="mx-4 rounded-2xl overflow-hidden aspect-[4/3] relative mb-3">
+                {memory.photo ? (
+                  <img
+                    src={memory.photo}
+                    alt={memory.title}
+                    className={`w-full h-full object-cover ${memory.objectPosition === "top" ? "object-top" : ""}`}
+                    loading="lazy"
+                  />
+                ) : (
+                  <div
+                    className="w-full h-full flex flex-col items-center justify-center px-6 text-center"
+                    style={{ background: memory.bg }}
+                  >
+                    <div className="text-5xl mb-4">{memory.emoji}</div>
+                    <h3
+                      className="font-display text-xl font-bold italic text-white mb-2"
+                      style={{ fontFamily: "var(--font-playfair)" }}
+                    >
+                      {memory.title}
+                    </h3>
+                    <p className="text-white/70 text-sm">{memory.caption.slice(0, 80)}...</p>
+                  </div>
+                )}
               </div>
 
               {/* Actions */}

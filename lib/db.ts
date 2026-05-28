@@ -1,96 +1,134 @@
 import { createClient } from "@libsql/client";
 
-let db: ReturnType<typeof createClient> | null = null;
+// Primary client (Turso) and fallback (in-memory)
+let primaryDb: ReturnType<typeof createClient> | null = null;
+let memoryDb: ReturnType<typeof createClient> | null = null;
+let tursoFailed = false;
 
-function getDb() {
-  if (!db) {
-    const url = process.env.TURSO_DATABASE_URL;
-    const authToken = process.env.TURSO_AUTH_TOKEN;
-
-    if (!url) {
-      // Fallback to in-memory SQLite for local dev without Turso
-      db = createClient({ url: ":memory:" });
-    } else {
-      db = createClient({ url, authToken });
-    }
+function getMemoryDb() {
+  if (!memoryDb) {
+    memoryDb = createClient({ url: ":memory:" });
   }
-  return db;
+  return memoryDb;
 }
 
+function getDb() {
+  if (tursoFailed) return getMemoryDb();
+
+  const url = process.env.TURSO_DATABASE_URL;
+  const authToken = process.env.TURSO_AUTH_TOKEN;
+
+  if (!url) {
+    return getMemoryDb();
+  }
+
+  if (!primaryDb) {
+    primaryDb = createClient({ url, authToken });
+  }
+  return primaryDb;
+}
+
+const CREATE_TABLES = `
+  CREATE TABLE IF NOT EXISTS messages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role TEXT NOT NULL,
+    content TEXT NOT NULL,
+    timestamp TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+  CREATE TABLE IF NOT EXISTS memories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    key TEXT NOT NULL UNIQUE,
+    value TEXT NOT NULL,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+`;
+
+let dbReady = false;
+
 export async function initDb() {
-  const client = getDb();
+  if (dbReady && !tursoFailed) return;
 
-  await client.execute(`
-    CREATE TABLE IF NOT EXISTS messages (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      role TEXT NOT NULL,
-      content TEXT NOT NULL,
-      timestamp TEXT NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
+  try {
+    const client = getDb();
+    await client.executeMultiple(CREATE_TABLES);
+    dbReady = true;
+  } catch (err: unknown) {
+    const isAuthError =
+      tursoFailed ||
+      (err instanceof Error && (err.message.includes("401") || err.message.includes("SERVER_ERROR")));
 
-  await client.execute(`
-    CREATE TABLE IF NOT EXISTS memories (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      key TEXT NOT NULL UNIQUE,
-      value TEXT NOT NULL,
-      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
+    if (isAuthError && !tursoFailed) {
+      console.warn("⚠️  Turso auth failed — falling back to in-memory SQLite");
+      tursoFailed = true;
+      dbReady = false;
+      primaryDb = null;
+      // Retry with memory db
+      const mem = getMemoryDb();
+      await mem.executeMultiple(CREATE_TABLES);
+      dbReady = true;
+    } else {
+      throw err;
+    }
+  }
+}
 
-  await client.execute(`
-    CREATE TABLE IF NOT EXISTS favorites (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      category TEXT NOT NULL,
-      item TEXT NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
+async function safeExecute(
+  sql: string,
+  args: (string | number | null)[] = []
+): Promise<ReturnType<ReturnType<typeof createClient>["execute"]>> {
+  await initDb();
+  try {
+    return await getDb().execute({ sql, args });
+  } catch (err: unknown) {
+    const isAuthError =
+      err instanceof Error &&
+      (err.message.includes("401") || err.message.includes("SERVER_ERROR"));
+
+    if (isAuthError && !tursoFailed) {
+      console.warn("⚠️  Turso 401 — switching to in-memory SQLite");
+      tursoFailed = true;
+      dbReady = false;
+      primaryDb = null;
+      await initDb();
+      return await getMemoryDb().execute({ sql, args });
+    }
+    throw err;
+  }
 }
 
 export async function saveMessage(role: string, content: string, timestamp: string) {
-  const client = getDb();
-  await initDb();
-  await client.execute({
-    sql: "INSERT INTO messages (role, content, timestamp) VALUES (?, ?, ?)",
-    args: [role, content, timestamp],
-  });
+  await safeExecute(
+    "INSERT INTO messages (role, content, timestamp) VALUES (?, ?, ?)",
+    [role, content, timestamp]
+  );
 }
 
 export async function getRecentMessages(limit = 20) {
-  const client = getDb();
-  await initDb();
-  const result = await client.execute({
-    sql: "SELECT * FROM messages ORDER BY created_at DESC LIMIT ?",
-    args: [limit],
-  });
+  const result = await safeExecute(
+    "SELECT * FROM messages ORDER BY created_at DESC LIMIT ?",
+    [limit]
+  );
   return result.rows.reverse();
 }
 
 export async function saveMemory(key: string, value: string) {
-  const client = getDb();
-  await initDb();
-  await client.execute({
-    sql: `INSERT INTO memories (key, value) VALUES (?, ?)
-          ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = CURRENT_TIMESTAMP`,
-    args: [key, value],
-  });
+  await safeExecute(
+    `INSERT INTO memories (key, value) VALUES (?, ?)
+     ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = CURRENT_TIMESTAMP`,
+    [key, value]
+  );
 }
 
 export async function getMemory(key: string) {
-  const client = getDb();
-  await initDb();
-  const result = await client.execute({
-    sql: "SELECT value FROM memories WHERE key = ?",
-    args: [key],
-  });
+  const result = await safeExecute(
+    "SELECT value FROM memories WHERE key = ?",
+    [key]
+  );
   return result.rows[0]?.value as string | null;
 }
 
 export async function getAllMemories() {
-  const client = getDb();
-  await initDb();
-  const result = await client.execute("SELECT key, value FROM memories");
+  const result = await safeExecute("SELECT key, value FROM memories");
   return result.rows;
 }

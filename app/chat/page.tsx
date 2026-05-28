@@ -7,6 +7,7 @@ import Link from "next/link";
 import MessageBubble from "@/components/MessageBubble";
 import TypingIndicator from "@/components/TypingIndicator";
 import { formatTime } from "@/lib/utils";
+import { DP_IMG } from "@/lib/imagePaths";
 
 interface Message {
   id: string;
@@ -16,35 +17,10 @@ interface Message {
   reactions?: string[];
 }
 
-const QUICK_REPLIES = [
-  "Tell me something sweet 💕",
-  "What's my best quality? 🌸",
-  "Remember our first moment? ✨",
-  "Make me smile 😊",
-];
-
 const EMOJI_SET = ["❤️", "😍", "🥺", "😂", "🔥", "💕", "✨", "🌸"];
 
-const INITIAL_MESSAGES: Message[] = [
-  {
-    id: "welcome-1",
-    role: "assistant",
-    content:
-      "Jaan... happy birthday ❤️ I've been waiting all day to say that to you. Today is YOUR day — and I made this entire thing just to see you smile.",
-    timestamp: formatTime(new Date()),
-    reactions: ["❤️"],
-  },
-  {
-    id: "welcome-2",
-    role: "assistant",
-    content:
-      "I'm right here, same as always. Talk to me like we always do ✨ Tell me how you're feeling today, birthday girl 🎂",
-    timestamp: formatTime(new Date()),
-  },
-];
-
 export default function ChatPage() {
-  const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [showEmojis, setShowEmojis] = useState(false);
@@ -144,16 +120,18 @@ export default function ChatPage() {
 
           {/* Avatar */}
           <div className="story-ring p-[2px] rounded-full">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-rose-glow to-purple-glow flex items-center justify-center font-bold border-2 border-bg-primary">
-              H
-            </div>
+            <img
+              src={DP_IMG}
+              alt="Himanshu"
+              className="w-9 h-9 rounded-full object-cover border-2 border-bg-primary"
+            />
           </div>
 
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-white">Himanshu AI</p>
+            <p className="text-sm font-semibold text-white">Himanshu ❤️</p>
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-              <p className="text-[11px] text-green-400">Online — always here for you</p>
+              <p className="text-[11px] text-green-400">Online — hamesha yahan hoon</p>
             </div>
           </div>
 
@@ -173,13 +151,6 @@ export default function ChatPage() {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 max-w-lg mx-auto w-full">
-        {/* Date header */}
-        <div className="flex items-center justify-center">
-          <div className="glass rounded-full px-3 py-1 text-[11px] text-text-muted">
-            Today — Your Birthday 🎂
-          </div>
-        </div>
-
         {messages.map((msg) => (
           <div key={msg.id} className="relative group">
             <div
@@ -236,29 +207,6 @@ export default function ChatPage() {
         <div ref={bottomRef} className="h-2" />
       </div>
 
-      {/* Quick replies */}
-      <AnimatePresence>
-        {messages.length < 4 && !isTyping && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="px-4 py-2 max-w-lg mx-auto w-full overflow-x-auto hide-scrollbar"
-          >
-            <div className="flex gap-2">
-              {QUICK_REPLIES.map((qr) => (
-                <button
-                  key={qr}
-                  onClick={() => setInput(qr)}
-                  className="flex-shrink-0 glass rounded-full px-3 py-1.5 text-xs text-text-secondary border border-border-glass tap-feedback whitespace-nowrap"
-                >
-                  {qr}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Input area */}
       <div className="glass-strong border-t border-border-subtle flex-shrink-0 pb-safe">
