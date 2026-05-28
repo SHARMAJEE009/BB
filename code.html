@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Plus+Jakarta+Sans:ital,wght@0,700;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#1b1c1c",
+                    "on-primary-fixed-variant": "#00497d",
+                    "secondary-fixed": "#ffd9df",
+                    "surface-container-highest": "#e3e2e2",
+                    "surface-dark": "#121212",
+                    "secondary-fixed-dim": "#ffb1c0",
+                    "background": "#faf9f9",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#d1e4ff",
+                    "tertiary-container": "#c7a852",
+                    "surface-container-low": "#f4f3f3",
+                    "surface-variant": "#e3e2e2",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-high": "#e9e8e8",
+                    "surface": "#faf9f9",
+                    "tertiary-fixed-dim": "#e4c36a",
+                    "on-tertiary-fixed": "#241a00",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed-dim": "#9ecaff",
+                    "surface-elevated": "#262626",
+                    "surface-container-lowest": "#ffffff",
+                    "insta-gradient-start": "#F58529",
+                    "on-secondary-container": "#fffbff",
+                    "surface-dim": "#dbdad9",
+                    "outline": "#707884",
+                    "on-primary-container": "#002b4d",
+                    "on-surface-variant": "#3f4752",
+                    "inverse-on-surface": "#f2f0f0",
+                    "insta-gradient-mid": "#DD2A7B",
+                    "surface-tint": "#0061a3",
+                    "primary": "#0061a3",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed": "#ffe08f",
+                    "surface-container": "#efeded",
+                    "secondary": "#b7004f",
+                    "primary-container": "#0095f6",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#90003d",
+                    "insta-gradient-end": "#8134AF",
+                    "on-tertiary-container": "#4f3d00",
+                    "inverse-surface": "#2f3031",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#1b1c1c",
+                    "secondary-container": "#da2a67",
+                    "on-secondary-fixed": "#3f0017",
+                    "on-primary-fixed": "#001d36",
+                    "surface-bright": "#faf9f9",
+                    "on-tertiary-fixed-variant": "#584400",
+                    "border-subtle": "#DBDBDB",
+                    "tertiary": "#745b07",
+                    "outline-variant": "#bfc7d4",
+                    "inverse-primary": "#9ecaff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "8px",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "4px",
+                    "margin-desktop": "24px",
+                    "lg": "16px",
+                    "max-width-feed": "600px",
+                    "xs": "4px",
+                    "xl": "24px",
+                    "sm": "8px",
+                    "margin-mobile": "12px",
+                    "md": "12px"
+            },
+            "fontFamily": {
+                    "title-md": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-caps": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "label-bold": ["Inter"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "title-md": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-bold": ["14px", {"lineHeight": "18px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .insta-border {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            padding: 2px;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-effect { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-slide-up {
+            animation: fadeInSlideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+            50% { transform: scale(1.05); box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.3); }
+        }
+        @keyframes shimmerEffect {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .animate-badge {
+            animation: badgePulse 3s ease-in-out infinite;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 75%);
+            background-size: 200% 100%;
+            animation: badgePulse 3s ease-in-out infinite, shimmerEffect 5s linear infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        .shimmer-bg {
+            background: linear-gradient(90deg, #f4f3f3 25%, #e9e8e8 50%, #f4f3f3 75%);
+            background-size: 200% 100%;
+            animation: shimmerEffect 2s linear infinite;
+        }
+
+        @keyframes fabSlideIn {
+            from { transform: translateX(100px) scale(0); opacity: 0; }
+            to { transform: translateX(0) scale(1); opacity: 1; }
+        }
+        .animate-fab {
+            animation: fabSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animate-fade-slide-up, .animate-badge, .animate-float, .shimmer-bg, .animate-fab, .active\:scale-95, .hover\:scale-110 {
+                animation: none !important;
+                transform: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-border-subtle flex justify-between items-center px-margin-mobile h-14">
+<div class="flex items-center gap-sm active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-primary" data-icon="celebration">celebration</span>
+<h1 class="font-display-lg text-headline-lg-mobile italic tracking-tight text-on-surface">Celebration</h1>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95" data-icon="send">send</button>
+</header>
+<main class="pt-14 pb-16 max-w-max-width-feed mx-auto">
+<!-- Stories Section -->
+<section class="py-lg border-b border-border-subtle overflow-x-auto hide-scrollbar flex gap-lg px-margin-mobile">
+<div class="flex flex-col items-center gap-xs animate-fade-slide-up" style="animation-delay: 0.1s; opacity: 0;">
+<div class="insta-border rounded-full p-[2px]">
+<div class="bg-surface rounded-full p-[2px]">
+<img class="w-16 h-16 rounded-full object-cover" data-alt="A festive birthday cake with burning candles on top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB73BoRFDXdPphisGdQgkOjKOS03IUx2slYXNwfBeayRuyYCIEwzPglLp9eLDMabjzZ3y3z8WJaPyPqcH47AdTtxytStHu_8Y5Qb2G89t8XpJcpX15qPS3SAPw3ZkBlrzKYS0QNQSgYTZpCv9HZOsYZ7jcqut48pXiMy-sy_SE9Wzh4tGLZq53UGr4xmy_WT_ObCptcO1HaWKmDQcYODzPl1_ExQsl2nZ8Z6-_jee0HpCbidd_tX0iTH6zdO-bd1oUHN8hLs8_NHIk"/>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface">Cakes</span>
+</div>
+<!-- Dynamic Stories Loop -->
+<div class="flex flex-col items-center gap-xs animate-fade-slide-up" style="animation-delay: 0.2s; opacity: 0;">
+<div class="insta-border rounded-full p-[2px]">
+<div class="bg-surface rounded-full p-[2px]">
+<img class="w-16 h-16 rounded-full object-cover" data-alt="Colorful birthday sprinkles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLf3uGKNISlUglU4BVphjKHab_yVDBFlJsycfSIXt0yKVO-tUF10U0IlvBYSBGi2zqDQitvOGQd50AhVpBHyDMNkS6PXzuJKm7aXq59mXYIH2syE_TJ1rKJOsqR1wLy1jKcZWB1yBBFdv3MlzvnMJY9XkszS9DK_JtopemYhAxmjwLSdPcMirBhZXiyppIl-na8tAIEFdo72RiGqsm4oIVKQn-n7uPjvOTWEKo4hF9y6CvqYVVj3muDPzDaHgnvQmuJ7jztb2Vu88"/>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface">Party</span>
+</div>
+<div class="flex flex-col items-center gap-xs animate-fade-slide-up" style="animation-delay: 0.3s; opacity: 0;">
+<div class="insta-border rounded-full p-[2px]">
+<div class="bg-surface rounded-full p-[2px]">
+<img class="w-16 h-16 rounded-full object-cover" data-alt="Festive balloons in soft pastel tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7mlJitSHg1ok9xbpZLkRlA1WVLfcOHc5MtgkxF2bO81hbkWv54MBhezHEnXr0Ya2LX_Hj8TEh-g0aZO9Ef_bvLZzZI-RnDDg-MbWpx2vja-rVHdpJdmbdNc7-2ulx_JaAUiha0qAdbMYZvTaoScz8f9nFNb6oByPCF_AsSn8RsIF-yTGj06ubE8Ax1GbHF3cyfYEVep-BRZ3uPUbKmcM0HMEwVuYdRx46yo90BOiSMmdBPM-orw46OjcFSBN7b3c8ob-NSklYoe8"/>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface">Vibes</span>
+</div>
+<div class="flex flex-col items-center gap-xs animate-fade-slide-up" style="animation-delay: 0.4s; opacity: 0;">
+<div class="insta-border rounded-full p-[2px]">
+<div class="bg-surface rounded-full p-[2px]">
+<img class="w-16 h-16 rounded-full object-cover" data-alt="A group of youthful friends laughing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-xZE9Wq-fmXEjP8WUG0JOv68MTYiCrr7D_PcnOt-6KpcwwrU0bCDpXTHoW5ThRSqRcjOMayIMpOuLSsCRFvnimkNU_3KtdafJ75VbN4fUpp30tfxBHAZrmvJaGSuKVblMWUU2lRKeyQud9F8vybprItqDKzFbIpnIBIeKkIETlzQpP5TYVH42CjEBcvbQjKD__KNhiAGGsZNwM8tL_27sFKvjKFz3smT7zqUa93BUr3ny0PUC3LFPSTp1NPwmqJwzy-TIwb6wLnQ"/>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface">Gang</span>
+</div>
+<div class="flex flex-col items-center gap-xs animate-fade-slide-up" style="animation-delay: 0.5s; opacity: 0;">
+<div class="insta-border rounded-full p-[2px]">
+<div class="bg-surface rounded-full p-[2px]">
+<img class="w-16 h-16 rounded-full object-cover" data-alt="A minimalist flat lay of a birthday card" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQ60aiwM7bSZgNonS8hydklDylfTIXXnU4Ezb3w_83IOuVkA5OJr6_WwDEMUud3FTpK_-XWa5gg_-pXPe13YyCjvEUVJ40dY_9gykGGQh-xuCaFmp9Qhlk0UNHNzVPpngAMkJH2ueQeFmdEo46kuWQxoU5ktf03XVo_Hef5i74VTSFpKBZebsF4wu7GJi5lVwOs3_Q9OiFeK0-_-dd3mBvl6pYlLuzPdfoqZHqJUikPE-ETm8UoXb-8i2GeJ9HHrewW4oI_9nHmk8"/>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface">Gifts</span>
+</div>
+</section>
+<!-- Main Birthday Post -->
+<article class="bg-surface-container-lowest md:border md:border-border-subtle md:rounded-lg md:mt-lg overflow-hidden transition-all duration-300 animate-fade-slide-up" style="animation-delay: 0.6s; opacity: 0;">
+<!-- Post Header -->
+<div class="flex items-center justify-between p-md">
+<div class="flex items-center gap-sm">
+<div class="insta-border rounded-full p-[1.5px]">
+<img class="w-8 h-8 rounded-full border-2 border-surface" data-alt="Profile headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJZdLCkeHa0vsLHe5uoIzOTaSP33Ah3PuM6WcqDQ7V7ItBevVEhzqCwDRUlHJEbZ_KV0Yb9DVXNOo8uLtItOYLaLvIXE9NIm4raFwKzZNoQ-h4bct51WsyMv1GMyvKPoo2D8ylLu21HCvU35PHv1eg06sIIC6geWNo6rgrh-wBllpMvHheHbPB90XBcxatK4qv7WjTTtXX6bYVipkAKi20yeqNY0-zOaRJBbwWgCo-7RDNCPELrDT3QyNlNeMUcP8MG7tUwcDgz6Y"/>
+</div>
+<span class="font-label-bold text-label-bold">himanshu_official</span>
+</div>
+<button class="material-symbols-outlined active:scale-125 transition-transform" data-icon="more_horiz">more_horiz</button>
+</div>
+<!-- Post Media (Hero Image) -->
+<div class="relative aspect-square w-full overflow-hidden">
+<div class="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none px-xl">
+<div class="animate-float text-center space-y-2">
+<span class="block font-display-lg text-[42px] leading-tight text-white drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)] italic">HAPPY</span>
+<span class="block font-display-lg text-[48px] leading-tight text-white drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)] italic">BIRTHDAY</span>
+<span class="block font-display-lg text-[36px] leading-tight text-white drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)] italic">HIMANSHU</span>
+</div>
+</div>
+<img class="w-full h-full object-cover scale-105" data-alt="A vibrant and festive birthday scene for Himanshu" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfumIPbwwIh9mIqKrlfdIVuWVVB_BD6REv_6B9cbLYDPz6xUrpWwv5caGNhemxHEgfgOt3v470qK4F1MvatpWJoMk_porvd7nji88vkhuUZF1RKLYkS53YXNuuWVik9QQxWQ6Pcs2CO8N59ClbALBz-PiajBmzi1ShxkZE5YIurdYTT_FWNQDBtOfckN9C7ZY9cMombBiDuESaqKtrGPPd6mRx8iBjA5M_poTLtZqRF3eA5MecwuUtQg8kDiZP4ujzi-ySv7kssdc"/>
+<div class="absolute bottom-4 left-4 glass-effect bg-white/20 px-md py-xs rounded-full border border-white/30 z-20 animate-badge">
+<span class="text-white font-label-caps text-label-caps uppercase tracking-wider">Birthday Special</span>
+</div>
+</div>
+<!-- Post Actions -->
+<div class="p-md">
+<div class="flex justify-between items-center mb-sm">
+<div class="flex gap-lg">
+<button class="material-symbols-outlined text-secondary active:scale-125 transition-transform duration-200" data-icon="favorite" data-weight="fill" style="font-variation-settings: 'FILL' 1;">favorite</button>
+<button class="material-symbols-outlined text-on-surface active:scale-125 transition-transform duration-200" data-icon="chat_bubble">chat_bubble</button>
+<button class="material-symbols-outlined text-on-surface active:scale-125 transition-transform duration-200" data-icon="share">share</button>
+</div>
+<button class="material-symbols-outlined text-on-surface active:scale-125 transition-transform duration-200" data-icon="bookmark">bookmark</button>
+</div>
+<div class="font-label-bold text-label-bold mb-xs">1,248 likes</div>
+<div class="space-y-xs">
+<p class="text-body-md"><span class="font-label-bold mr-xs">himanshu_official</span>Grateful for another trip around the sun! 🎂✨ #Celebration</p>
+<button class="text-on-surface-variant font-body-sm text-body-sm hover:underline">View all 42 comments</button>
+<!-- Comments section -->
+<div class="space-y-xs mt-sm">
+<div class="text-body-sm"><span class="font-label-bold mr-xs">alex_j</span>Happy Birthday bro! Keep shining! 🔥</div>
+<div class="text-body-sm"><span class="font-label-bold mr-xs">maya_design</span>HBD Himanshu! Have an amazing day! 🎉</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Suggested Friends (Grid Layout) -->
+<section class="p-margin-mobile">
+<h2 class="font-title-md text-title-md mb-lg">Suggested for you</h2>
+<div class="grid grid-cols-2 gap-md">
+<div class="bg-surface-container-low p-md rounded-lg flex flex-col items-center border border-border-subtle relative overflow-hidden group">
+<div class="absolute inset-0 shimmer-bg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+<img class="w-20 h-20 rounded-full mb-sm object-cover relative z-10" data-alt="Portrait Sarah" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1c5a-lqbjuo9CkPyb4HraoU32iaSqFn28tnCpd7Zk0eTne7GxzlH3RovcE4IEt94qvkjvPa3It5Zrl8UTlIPcfq-X-ln_7TcpRi8uboZaCKxG1FeLpvEfQcE-oQ9my5eP-I1q458ANWokrEx50k_2Ob3hkg3Zsl-KO8BYvhNxOp_XQmCE1GL6hrEoaDXOsvoDFWQ1g8Pw6iy2yLI5Fkoc2S5-JsvjCmxSWzgJ8qKkhqKorE_XT8yB_tselYTkqpU2jXfTS2n4nPQ"/>
+<span class="font-label-bold text-label-bold relative z-10">Sarah K.</span>
+<button class="mt-sm bg-primary-container text-on-primary-container px-lg py-1 rounded-lg font-label-bold text-label-bold w-full hover:opacity-90 active:scale-95 transition-all relative z-10">Follow</button>
+</div>
+<div class="bg-surface-container-low p-md rounded-lg flex flex-col items-center border border-border-subtle relative overflow-hidden group">
+<div class="absolute inset-0 shimmer-bg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+<img class="w-20 h-20 rounded-full mb-sm object-cover relative z-10" data-alt="Portrait David" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk5kOs5iYdAyOCkVm1aH4oBwG5vL4USBZ1Rchgx266lLzlIDigC0TljTX1HZYYUHDbf8uwlMYcEhepc5bwSxkHQzTXzdcuXZdMSjW0niKzrIODE3DL4Dd266fX1vxHjflZfsL5DEPPeylAF6htMSz8-NhHnIDXefOaAPEQ0EIZbntSA0PbzSyKD6Ez9ccNRhkLgbMU2hXTR66dn_Mvk73U7EmiRbJQoieLCQA3ohM-Lgxj4lqG4x-uc3HyVhjn9FV8v3CLh8IYRM4"/>
+<span class="font-label-bold text-label-bold relative z-10">David R.</span>
+<button class="mt-sm bg-primary-container text-on-primary-container px-lg py-1 rounded-lg font-label-bold text-label-bold w-full hover:opacity-90 active:scale-95 transition-all relative z-10">Follow</button>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB & AI Chat Interface -->
+<div class="hidden fixed inset-0 z-[60] flex items-end justify-center px-margin-mobile pb-20 pointer-events-none" id="ai-chat-interface">
+<div class="w-full max-w-max-width-feed bg-surface rounded-xl shadow-xl border border-border-subtle pointer-events-auto transition-all duration-300 translate-y-full opacity-0 overflow-hidden" id="chat-bubble-container">
+<div class="bg-surface-container-high p-md flex items-center justify-between border-b border-border-subtle">
+<div class="flex items-center gap-sm">
+<div class="bg-primary p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[20px]" data-icon="smart_toy">smart_toy</span>
+</div>
+<div>
+<h4 class="font-title-md text-title-md">Himanshu AI</h4>
+<p class="text-[10px] uppercase font-bold tracking-tighter text-primary">Online &amp; Ready</p>
+</div>
+</div>
+<button class="material-symbols-outlined" data-icon="close" onclick="toggleChat()">close</button>
+</div>
+<div class="p-lg h-64 overflow-y-auto flex flex-col gap-md">
+<div class="flex gap-sm items-start">
+<div class="bg-surface-container px-md py-sm rounded-lg rounded-tl-none">
+<p class="text-body-md text-on-surface">Hey! Let's celebrate! I'm your AI birthday host today. How can I make this day special? 🎉</p>
+</div>
+</div>
+<div class="flex gap-sm items-start flex-row-reverse">
+<div class="bg-primary-container text-on-primary-container px-md py-sm rounded-lg rounded-tr-none">
+<p class="text-body-md">Can you play some party music?</p>
+</div>
+</div>
+</div>
+<div class="p-md border-t border-border-subtle flex gap-sm">
+<input class="flex-1 bg-surface-container-low border-none rounded-lg text-body-md focus:ring-1 focus:ring-primary" placeholder="Message Himanshu AI..." type="text"/>
+<button class="bg-primary-container text-on-primary-container p-sm rounded-lg flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Floating Chat Button -->
+<button class="fixed bottom-20 right-margin-mobile z-50 bg-primary-container text-on-primary-container p-lg rounded-full shadow-lg active:scale-90 transition-all hover:opacity-90 animate-fab" onclick="toggleChat()">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+</button>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-t border-border-subtle flex justify-around items-center h-12 pb-safe">
+<button class="flex flex-col items-center justify-center text-on-background scale-110 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="home" data-weight="fill" style="font-variation-settings: 'FILL' 1;">home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+</nav>
+<script>
+        function toggleChat() {
+            const chatOverlay = document.getElementById('ai-chat-interface');
+            const chatBubble = document.getElementById('chat-bubble-container');
+            
+            if (chatOverlay.classList.contains('hidden')) {
+                chatOverlay.classList.remove('hidden');
+                setTimeout(() => {
+                    chatBubble.classList.remove('translate-y-full', 'opacity-0');
+                    chatBubble.classList.add('translate-y-0', 'opacity-100');
+                }, 10);
+            } else {
+                chatBubble.classList.remove('translate-y-0', 'opacity-100');
+                chatBubble.classList.add('translate-y-full', 'opacity-0');
+                setTimeout(() => {
+                    chatOverlay.classList.add('hidden');
+                }, 300);
+            }
+        }
+    </script>
+</body></html>

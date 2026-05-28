@@ -1,0 +1,79 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { Check, CheckCheck } from "lucide-react";
+import clsx from "clsx";
+
+interface MessageBubbleProps {
+  content: string;
+  role: "user" | "assistant";
+  timestamp?: string;
+  seen?: boolean;
+  reactions?: string[];
+}
+
+export default function MessageBubble({
+  content,
+  role,
+  timestamp,
+  seen,
+  reactions,
+}: MessageBubbleProps) {
+  const isUser = role === "user";
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: isUser ? 20 : -20, scale: 0.9 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      className={clsx("flex items-end gap-2 max-w-[85%]", isUser ? "ml-auto flex-row-reverse" : "")}
+    >
+      {/* Avatar */}
+      {!isUser && (
+        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-rose-glow to-purple-glow flex items-center justify-center text-xs font-bold flex-shrink-0 mb-1">
+          H
+        </div>
+      )}
+
+      <div className={clsx("flex flex-col gap-1", isUser ? "items-end" : "items-start")}>
+        {/* Bubble */}
+        <div
+          className={clsx(
+            "relative px-4 py-2.5 rounded-2xl max-w-full",
+            isUser
+              ? "bg-gradient-to-br from-rose-glow/80 to-purple-glow/80 text-white rounded-br-sm"
+              : "glass text-white rounded-bl-sm",
+            "shadow-sm"
+          )}
+        >
+          <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">{content}</p>
+        </div>
+
+        {/* Reactions */}
+        {reactions && reactions.length > 0 && (
+          <div className="flex gap-0.5 -mt-2">
+            {reactions.map((r, i) => (
+              <span key={i} className="text-sm bg-bg-card rounded-full px-1 py-0.5 shadow">
+                {r}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Meta */}
+        <div className="flex items-center gap-1 px-1">
+          {timestamp && (
+            <span className="text-[10px] text-text-muted">{timestamp}</span>
+          )}
+          {isUser && seen !== undefined && (
+            seen ? (
+              <CheckCheck size={12} className="text-rose-glow" />
+            ) : (
+              <Check size={12} className="text-text-muted" />
+            )
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
