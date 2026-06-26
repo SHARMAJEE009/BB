@@ -52,7 +52,6 @@ export default function SecretPage() {
     if (password.toLowerCase() === SECRET_PASSWORD) {
       setUnlocked(true);
       setError(false);
-      // Reveal paragraphs one by one
       LETTER_CONTENT.forEach((_, i) => {
         setTimeout(() => {
           setRevealedParagraphs(i + 1);
@@ -76,9 +75,9 @@ export default function SecretPage() {
           <motion.button
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="glass rounded-full p-2.5 tap-feedback"
+            className="bg-white/80 border border-border-subtle rounded-full p-2.5 tap-feedback shadow-card"
           >
-            <ChevronLeft size={20} className="text-white" />
+            <ChevronLeft size={20} className="text-text-primary" />
           </motion.button>
         </Link>
       </div>
@@ -88,7 +87,7 @@ export default function SecretPage() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 70% 50% at 50% 40%, rgba(255,107,157,0.12) 0%, transparent 70%)",
+            "radial-gradient(ellipse 70% 50% at 50% 40%, rgba(225,48,108,0.08) 0%, transparent 70%)",
         }}
       />
 
@@ -112,7 +111,7 @@ export default function SecretPage() {
                 animate={unlocked ? { scale: [1, 1.3, 1], rotate: [-20, 0] } : {}}
                 className="mb-8"
               >
-                <div className="w-24 h-24 rounded-full glass flex items-center justify-center glow-pink shadow-glow-pink">
+                <div className="w-24 h-24 rounded-full bg-white border border-border-subtle shadow-card-md flex items-center justify-center glow-pink">
                   <Lock size={40} className="text-rose-glow" />
                 </div>
               </motion.div>
@@ -128,7 +127,7 @@ export default function SecretPage() {
               </p>
 
               {/* Password hint */}
-              <div className="glass rounded-2xl px-4 py-2 mb-6 flex items-center gap-2">
+              <div className="bg-white/80 border border-border-subtle rounded-2xl px-4 py-2 mb-6 flex items-center gap-2 shadow-card">
                 <Heart size={14} className="text-rose-glow" />
                 <p className="text-[12px] text-text-secondary">
                   Hint: It&apos;s what I say to you every single day
@@ -148,7 +147,7 @@ export default function SecretPage() {
                     }}
                     onKeyDown={(e) => e.key === "Enter" && tryUnlock()}
                     placeholder="Enter password..."
-                    className={`w-full premium-input rounded-2xl px-5 py-4 text-sm text-white pr-12 ${
+                    className={`w-full premium-input rounded-2xl px-5 py-4 text-sm pr-12 ${
                       error ? "border-red-500/50 shadow-[0_0_0_2px_rgba(239,68,68,0.2)]" : ""
                     }`}
                     autoComplete="off"
@@ -167,7 +166,7 @@ export default function SecretPage() {
                       initial={{ opacity: 0, y: -5 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="text-[12px] text-red-400 text-center"
+                      className="text-[12px] text-red-500 text-center"
                     >
                       That&apos;s not it... (hint: 3 words, starts with &apos;i&apos;) 💭
                     </motion.p>
@@ -228,13 +227,10 @@ export default function SecretPage() {
                     <motion.div
                       initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
                       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      transition={{
-                        duration: 0.7,
-                        ease: [0.2, 0.8, 0.2, 1],
-                      }}
+                      transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
                     >
                       <p
-                        className="text-white/90 leading-8 text-[15px] whitespace-pre-line"
+                        className="text-text-primary leading-8 text-[15px] whitespace-pre-line"
                         style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic" }}
                       >
                         {section.paragraph}

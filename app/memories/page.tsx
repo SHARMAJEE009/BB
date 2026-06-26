@@ -202,14 +202,14 @@ export default function MemoriesPage() {
                 <div className="flex items-center gap-3">
                   <div className="story-ring p-[2px] rounded-full">
                     <div
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-lg border-2 border-bg-primary"
+                      className="w-9 h-9 rounded-full flex items-center justify-center text-lg border-2 border-white"
                       style={{ background: memory.bg }}
                     >
                       {memory.emoji}
                     </div>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-white">himanshu_official</p>
+                    <p className="text-sm font-semibold text-text-primary">himanshu_official</p>
                     <p className="text-[11px] text-text-muted">{memory.date}</p>
                   </div>
                 </div>
@@ -255,7 +255,7 @@ export default function MemoriesPage() {
                       <Heart
                         size={22}
                         className={`transition-all ${
-                          likes[memory.id] ? "text-rose-glow fill-rose-glow" : "text-white"
+                          likes[memory.id] ? "text-rose-glow fill-rose-glow" : "text-text-primary"
                         }`}
                       />
                     </motion.button>
@@ -265,11 +265,11 @@ export default function MemoriesPage() {
                         setOpenComments(openComments === memory.id ? null : memory.id)
                       }
                     >
-                      <MessageCircle size={22} className="text-white" />
+                      <MessageCircle size={22} className="text-text-primary" />
                     </motion.button>
                     <Link href="/chat">
                       <motion.button whileTap={{ scale: 0.9 }}>
-                        <Send size={22} className="text-white" />
+                        <Send size={22} className="text-text-primary" />
                       </motion.button>
                     </Link>
                   </div>
@@ -280,17 +280,17 @@ export default function MemoriesPage() {
                     <Bookmark
                       size={22}
                       className={`transition-all ${
-                        bookmarks.has(memory.id) ? "text-white fill-white" : "text-white"
+                        bookmarks.has(memory.id) ? "text-text-primary fill-text-primary" : "text-text-primary"
                       }`}
                     />
                   </motion.button>
                 </div>
 
-                <p className="text-sm font-semibold text-white mb-1">
+                <p className="text-sm font-semibold text-text-primary mb-1">
                   {(memory.likes + (likes[memory.id] ? 1 : 0)).toLocaleString()} likes
                 </p>
 
-                <p className="text-sm text-white leading-relaxed">
+                <p className="text-sm text-text-primary leading-relaxed">
                   <span className="font-semibold mr-1">himanshu_official</span>
                   {memory.caption}
                 </p>
@@ -315,7 +315,7 @@ export default function MemoriesPage() {
                       className="mt-2 space-y-1.5 overflow-hidden"
                     >
                       {memory.comments.map((c, ci) => (
-                        <p key={ci} className="text-sm text-white">
+                        <p key={ci} className="text-sm text-text-primary">
                           <span className="font-semibold mr-1">{c.user}</span>
                           {c.text}
                         </p>

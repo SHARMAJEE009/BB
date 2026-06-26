@@ -128,7 +128,7 @@ export default function ChatPage() {
           </div>
 
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-white">Himanshu ❤️</p>
+            <p className="text-sm font-semibold text-text-primary">Himanshu ❤️</p>
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               <p className="text-[11px] text-green-400">Online — hamesha yahan hoon</p>
@@ -260,7 +260,7 @@ export default function ChatPage() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Message Himanshu..."
-                className="flex-1 bg-transparent text-sm text-white placeholder:text-text-muted outline-none"
+                className="flex-1 bg-transparent text-sm text-text-primary placeholder:text-text-muted outline-none"
               />
               <button className="tap-feedback flex-shrink-0">
                 <Image size={18} className="text-text-muted" />
