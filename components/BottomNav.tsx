@@ -22,7 +22,7 @@ export default function BottomNav() {
       initial={{ y: 80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
-      className="fixed bottom-0 w-full z-50 glass-strong border-t border-border-subtle pb-safe"
+      className="fixed bottom-0 w-full z-50 bg-white/95 backdrop-blur-xl border-t border-border-subtle pb-safe"
     >
       <div className="max-w-lg mx-auto px-2 h-16 flex items-center justify-around">
         {navItems.map(({ href, icon: Icon, label }) => {
@@ -34,9 +34,7 @@ export default function BottomNav() {
                   size={22}
                   className={clsx(
                     "transition-all duration-200",
-                    active
-                      ? "text-rose-glow drop-shadow-[0_0_8px_rgba(255,107,157,0.8)]"
-                      : "text-text-secondary"
+                    active ? "text-rose-glow" : "text-text-secondary"
                   )}
                   fill={active ? "currentColor" : "none"}
                 />
@@ -47,12 +45,10 @@ export default function BottomNav() {
                   />
                 )}
               </div>
-              <span
-                className={clsx(
-                  "text-[10px] font-medium transition-colors",
-                  active ? "text-rose-glow" : "text-text-muted"
-                )}
-              >
+              <span className={clsx(
+                "text-[10px] font-medium transition-colors",
+                active ? "text-rose-glow" : "text-text-muted"
+              )}>
                 {label}
               </span>
             </Link>

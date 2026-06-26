@@ -36,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="bg-bg-primary text-white font-sans antialiased overflow-x-hidden">
+      <body className="bg-bg-primary text-text-primary font-sans antialiased overflow-x-hidden">
         <div className="ambient-glow" aria-hidden="true" />
         {children}
       </body>

@@ -9,36 +9,36 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Core romantic dark palette
-        "bg-primary": "#0a0a0f",
-        "bg-secondary": "#111118",
-        "bg-card": "#1a1a24",
-        "bg-elevated": "#22222e",
-        // Instagram-inspired gradient colors
+        // Instagram light palette
+        "bg-primary": "#FAFAFA",
+        "bg-secondary": "#FFFFFF",
+        "bg-card": "#FFFFFF",
+        "bg-elevated": "#F3F3F3",
+        // Romantic pink/purple accents (kept vibrant)
+        "rose-glow": "#E1306C",
+        "pink-soft": "#F9658A",
+        "purple-glow": "#8134AF",
+        "purple-deep": "#6A1A7A",
+        "lavender": "#C77DFF",
+        // Text — Instagram style
+        "text-primary": "#262626",
+        "text-secondary": "#737373",
+        "text-muted": "#AEAEAE",
+        // Borders — Instagram style
+        "border-subtle": "#DBDBDB",
+        "border-glass": "rgba(0,0,0,0.08)",
+        // Insta gradient colors
         "insta-orange": "#F58529",
         "insta-pink": "#DD2A7B",
         "insta-purple": "#8134AF",
-        // Romantic pink/purple palette
-        "rose-glow": "#ff6b9d",
-        "pink-soft": "#ff8fab",
-        "purple-glow": "#c77dff",
-        "purple-deep": "#7b2d8b",
-        "lavender": "#e0aaff",
-        // Text
-        "text-primary": "#ffffff",
-        "text-secondary": "#a8a8b3",
-        "text-muted": "#6b6b7a",
-        // Borders
-        "border-subtle": "#2a2a38",
-        "border-glass": "rgba(255,255,255,0.08)",
       },
       backgroundImage: {
-        "romantic-gradient": "linear-gradient(135deg, #1a0a2e 0%, #0d1b2a 30%, #1a0520 60%, #0a0a1a 100%)",
+        "romantic-gradient": "linear-gradient(135deg, #FFF0F5 0%, #F8F0FF 50%, #FFF5F8 100%)",
         "insta-gradient": "linear-gradient(45deg, #F58529, #DD2A7B, #8134AF)",
-        "rose-gradient": "linear-gradient(135deg, #ff6b9d, #c77dff)",
-        "card-gradient": "linear-gradient(135deg, rgba(255,107,157,0.1), rgba(199,125,255,0.1))",
-        "glow-radial": "radial-gradient(ellipse at center, rgba(255,107,157,0.15) 0%, transparent 70%)",
-        "hero-gradient": "linear-gradient(180deg, rgba(10,10,15,0) 0%, rgba(10,10,15,0.8) 60%, rgba(10,10,15,1) 100%)",
+        "rose-gradient": "linear-gradient(135deg, #E1306C, #8134AF)",
+        "card-gradient": "linear-gradient(135deg, rgba(225,48,108,0.06), rgba(129,52,175,0.06))",
+        "glow-radial": "radial-gradient(ellipse at center, rgba(225,48,108,0.08) 0%, transparent 70%)",
+        "hero-gradient": "linear-gradient(180deg, rgba(250,240,245,0) 0%, rgba(250,240,245,0.6) 60%, rgba(250,240,245,1) 100%)",
       },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "sans-serif"],
@@ -47,17 +47,14 @@ const config: Config = {
       animation: {
         "float": "float 4s ease-in-out infinite",
         "float-delay": "float 4s ease-in-out infinite 1s",
-        "float-delay2": "float 4s ease-in-out infinite 2s",
         "heart-rise": "heartRise 3s ease-in forwards",
         "fade-in-up": "fadeInUp 0.6s cubic-bezier(0.2,0.8,0.2,1) forwards",
         "slide-up": "slideUp 0.4s cubic-bezier(0.2,0.8,0.2,1) forwards",
         "pulse-glow": "pulseGlow 2s ease-in-out infinite",
-        "typing": "typing 1.2s ease-in-out infinite",
-        "shimmer": "shimmer 2.5s linear infinite",
-        "spin-slow": "spin 8s linear infinite",
         "bounce-soft": "bounceSoft 2s ease-in-out infinite",
         "scale-in": "scaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards",
-        "story-ring": "storyRing 3s linear infinite",
+        "shimmer": "shimmer 2.5s linear infinite",
+        "spin-slow": "spin 8s linear infinite",
       },
       keyframes: {
         float: {
@@ -77,16 +74,8 @@ const config: Config = {
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
         pulseGlow: {
-          "0%, 100%": { boxShadow: "0 0 20px rgba(255,107,157,0.3)" },
-          "50%": { boxShadow: "0 0 40px rgba(255,107,157,0.6), 0 0 80px rgba(199,125,255,0.3)" },
-        },
-        typing: {
-          "0%, 100%": { opacity: "0.3" },
-          "50%": { opacity: "1" },
-        },
-        shimmer: {
-          "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" },
+          "0%, 100%": { boxShadow: "0 0 20px rgba(225,48,108,0.2)" },
+          "50%": { boxShadow: "0 0 40px rgba(225,48,108,0.4), 0 0 80px rgba(129,52,175,0.15)" },
         },
         bounceSoft: {
           "0%, 100%": { transform: "translateY(0)" },
@@ -96,25 +85,18 @@ const config: Config = {
           "0%": { transform: "scale(0)", opacity: "0" },
           "100%": { transform: "scale(1)", opacity: "1" },
         },
-        storyRing: {
-          "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(360deg)" },
+        shimmer: {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
         },
       },
       boxShadow: {
-        "glow-pink": "0 0 20px rgba(255,107,157,0.4), 0 0 60px rgba(255,107,157,0.1)",
-        "glow-purple": "0 0 20px rgba(199,125,255,0.4), 0 0 60px rgba(199,125,255,0.1)",
-        "glow-strong": "0 0 40px rgba(255,107,157,0.5), 0 0 80px rgba(199,125,255,0.3)",
-        "glass": "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05)",
-        "card": "0 4px 24px rgba(0,0,0,0.3)",
-      },
-      backdropBlur: {
-        xs: "4px",
-      },
-      borderRadius: {
-        "2xl": "1rem",
-        "3xl": "1.5rem",
-        "4xl": "2rem",
+        "glow-pink": "0 0 16px rgba(225,48,108,0.25)",
+        "glow-purple": "0 0 16px rgba(129,52,175,0.25)",
+        "glow-strong": "0 0 30px rgba(225,48,108,0.3), 0 0 60px rgba(129,52,175,0.15)",
+        "glass": "0 2px 20px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)",
+        "card": "0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06)",
+        "card-md": "0 4px 12px rgba(0,0,0,0.08)",
       },
     },
   },
