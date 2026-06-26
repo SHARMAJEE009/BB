@@ -67,7 +67,7 @@ export async function generateResponse(
     : base;
 
   const response = await client.chat.completions.create({
-    model: "anthropic/claude-3.5-haiku",
+    model: "google/gemma-4-31b-it:free",
     messages: [
       { role: "system", content: systemContent },
       ...messages.slice(-15),
