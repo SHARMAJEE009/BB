@@ -35,15 +35,38 @@ Baat karne ka style:
 Agar wo sad ya upset ho: pehle validate kar, phir comfort de.
 Generic mat baat kar. Specific, real aur personal feel do.`;
 
-export function getAIClient() {
-  return new OpenAI({
-    baseURL: "https://openrouter.ai/api/v1",
-    apiKey: process.env.OPENROUTER_API_KEY || "",
-    defaultHeaders: {
-      "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-      "X-Title": "BB App",
-    },
-  });
+export function getAIClient(): { client: OpenAI; models: string[] } {
+  // Groq: very generous free tier (14400 req/day), much more reliable
+  if (process.env.GROQ_API_KEY) {
+    return {
+      client: new OpenAI({
+        baseURL: "https://api.groq.com/openai/v1",
+        apiKey: process.env.GROQ_API_KEY,
+      }),
+      models: [
+        "llama-3.1-8b-instant",
+        "llama3-8b-8192",
+        "gemma2-9b-it",
+      ],
+    };
+  }
+  // Fallback: OpenRouter free models
+  return {
+    client: new OpenAI({
+      baseURL: "https://openrouter.ai/api/v1",
+      apiKey: process.env.OPENROUTER_API_KEY || "",
+      defaultHeaders: {
+        "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+        "X-Title": "BB App",
+      },
+    }),
+    models: [
+      "meta-llama/llama-3.1-8b-instruct:free",
+      "mistralai/mistral-7b-instruct:free",
+      "google/gemma-2-9b-it:free",
+      "qwen/qwen-2-7b-instruct:free",
+    ],
+  };
 }
 
 export interface ChatMessage {
@@ -51,18 +74,11 @@ export interface ChatMessage {
   content: string;
 }
 
-const FREE_MODELS = [
-  "meta-llama/llama-3.1-8b-instruct:free",
-  "mistralai/mistral-7b-instruct:free",
-  "google/gemma-2-9b-it:free",
-  "qwen/qwen-2-7b-instruct:free",
-];
-
 export async function generateResponse(
   messages: ChatMessage[],
   memories?: string
 ): Promise<string> {
-  const client = getAIClient();
+  const { client, models } = getAIClient();
 
   const base = `${SYSTEM_PROMPT}\n\nAaj ka context: ${getTodayContext()}`;
   const systemContent = memories
@@ -79,7 +95,7 @@ export async function generateResponse(
   };
 
   let lastError: unknown;
-  for (const model of FREE_MODELS) {
+  for (const model of models) {
     try {
       const response = await client.chat.completions.create({ model, ...payload });
       const text = response.choices[0]?.message?.content;
@@ -87,8 +103,7 @@ export async function generateResponse(
     } catch (err) {
       lastError = err;
       const msg = err instanceof Error ? err.message : String(err);
-      // Only continue to next model on rate-limit or provider errors
-      if (!msg.includes("429") && !msg.includes("Provider") && !msg.includes("503")) {
+      if (!msg.includes("429") && !msg.includes("Provider") && !msg.includes("503") && !msg.includes("rate")) {
         throw err;
       }
     }
