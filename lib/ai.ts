@@ -51,6 +51,13 @@ export interface ChatMessage {
   content: string;
 }
 
+const FREE_MODELS = [
+  "meta-llama/llama-3.1-8b-instruct:free",
+  "mistralai/mistral-7b-instruct:free",
+  "google/gemma-2-9b-it:free",
+  "qwen/qwen-2-7b-instruct:free",
+];
+
 export async function generateResponse(
   messages: ChatMessage[],
   memories?: string
@@ -62,15 +69,30 @@ export async function generateResponse(
     ? `${base}\n\nUske baare mein jo yaad hai:\n${memories}`
     : base;
 
-  const response = await client.chat.completions.create({
-    model: "google/gemma-4-31b-it:free",
+  const payload = {
     messages: [
-      { role: "system", content: systemContent },
+      { role: "system" as const, content: systemContent },
       ...messages.slice(-15),
     ],
     max_tokens: 350,
     temperature: 0.88,
-  });
+  };
 
-  return response.choices[0]?.message?.content || "I love you ❤️";
+  let lastError: unknown;
+  for (const model of FREE_MODELS) {
+    try {
+      const response = await client.chat.completions.create({ model, ...payload });
+      const text = response.choices[0]?.message?.content;
+      if (text) return text;
+    } catch (err) {
+      lastError = err;
+      const msg = err instanceof Error ? err.message : String(err);
+      // Only continue to next model on rate-limit or provider errors
+      if (!msg.includes("429") && !msg.includes("Provider") && !msg.includes("503")) {
+        throw err;
+      }
+    }
+  }
+
+  throw lastError;
 }

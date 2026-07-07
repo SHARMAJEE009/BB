@@ -49,10 +49,9 @@ export async function POST(req: NextRequest) {
   try {
     aiReply = await generateResponse(chatHistory, memorySummary || undefined);
   } catch (aiErr) {
-    const errMsg = aiErr instanceof Error ? aiErr.message : String(aiErr);
-    console.error("OpenRouter AI error:", errMsg);
+    console.error("OpenRouter AI error:", aiErr instanceof Error ? aiErr.message : aiErr);
     return NextResponse.json(
-      { reply: `[DEBUG] AI error: ${errMsg}`, timestamp: ts },
+      { reply: "Jaan, ek second — dobara bhejo ❤️", timestamp: ts },
       { status: 200 }
     );
   }
